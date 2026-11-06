@@ -1,0 +1,7 @@
+s120hd hd120_nar_mem 0 all,504,0.671,155,689/1064,9.1 | contact_where,in_view=81@0.61,side=42@0.64,behind=1@0.61,floor=1@1.07,ceiling=0@0.00,box=30@0.74
+s120hd hd120_nar_mem 1 all,504,0.677,152,701/1064,9.2 | contact_where,in_view=78@0.61,side=40@0.70,behind=1@0.61,floor=1@1.07,ceiling=0@0.00,box=32@0.75
+s120hd hd120_nar_mem 2 all,504,0.669,155,694/1064,9.1 | contact_where,in_view=77@0.61,side=42@0.70,behind=1@0.61,floor=1@1.07,ceiling=0@0.00,box=34@0.72
+s120hd bm_f120_nar_mem 0 all,504,0.917,28,983/1064,9.4 | contact_where,in_view=0@0.00,side=7@0.68,behind=1@0.13,floor=0@0.00,ceiling=0@0.00,box=20@0.60
+s120hd bm_f120_nar_mem 1 all,504,0.911,30,978/1064,9.3 | contact_where,in_view=0@0.00,side=7@0.68,behind=0@0.00,floor=0@0.00,ceiling=0@0.00,box=23@0.61
+s120hd bm_f120_nar_mem 2 all,504,0.905,29,973/1064,9.4 | contact_where,in_view=0@0.00,side=7@0.68,behind=0@0.00,floor=0@0.00,ceiling=0@0.00,box=22@0.64
+R6_DONE

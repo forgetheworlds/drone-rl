@@ -1,0 +1,14 @@
+set,flights,completion,contact_flights,waypoints_reached,seconds_per_waypoint
+counter,192,0.693,38,133/192,19.3
+door,192,0.724,44,139/192,15.0
+level,192,0.979,2,243/248,9.8
+overwall,192,0.922,14,177/192,12.7
+person,192,0.562,76,108/192,18.2
+window,192,0.250,94,48/192,16.9
+all,1152,0.688,268,848/1208,14.2
+blocker_counter,flights=192,over=162(complete 133),around=1(complete 0),never_passed=29,timeouts=21,mean_max_climb=0.97
+blocker_person,flights=192,over=9(complete 8),around=128(complete 100),never_passed=55,timeouts=8,mean_max_climb=0.55
+blocker_all,flights=384,over=171(complete 141),around=129(complete 100),never_passed=84,timeouts=29,mean_max_climb=0.76
+contacts_box_missions,53/128
+preset_surfaces,none=0.000,floor=0.284,ceiling=0.238,wall_textureless=0.290,wall_textured=0.184,thin=0.000,mover=0.004
+contact_where,in_view=75@0.54,side=109@0.51,behind=11@0.36,floor=3@0.12,ceiling=4@0.38,box=66@0.54

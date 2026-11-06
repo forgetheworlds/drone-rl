@@ -1,0 +1,242 @@
+{
+ "pin90_160": {
+  "frames": 4905,
+  "rays": 882752,
+  "dead_cols": 4,
+  "dead_rows": 0,
+  "k": 0.0344,
+  "textureless": 0.509,
+  "share_floor": 0.19,
+  "hole_floor": 0.397,
+  "phantom_floor": 0.0089,
+  "ff_floor": 0.0262,
+  "share_textureless": 0.412,
+  "hole_textureless": 0.758,
+  "phantom_textureless": 0.028,
+  "ff_textureless": 0.2091,
+  "share_textured": 0.398,
+  "hole_textured": 0.297,
+  "phantom_textured": 0.0409,
+  "ff_textured": 0.075,
+  "band_0_1": {
+   "n": 141453,
+   "hole": 0.52,
+   "phantom": 0.0045
+  },
+  "band_1_2": {
+   "n": 412295,
+   "hole": 0.511,
+   "phantom": 0.0227
+  },
+  "band_2_3": {
+   "n": 329004,
+   "hole": 0.494,
+   "phantom": 0.0488
+  },
+  "all": {
+   "hole": 0.506,
+   "phantom": 0.0295,
+   "ff": 0.081
+  }
+ },
+ "pin90_160_fx": {
+  "frames": 4905,
+  "rays": 882752,
+  "dead_cols": 4,
+  "dead_rows": 0,
+  "k": 0.044,
+  "textureless": 0.509,
+  "share_floor": 0.19,
+  "hole_floor": 0.753,
+  "phantom_floor": 0.0123,
+  "ff_floor": 0.0855,
+  "share_textureless": 0.412,
+  "hole_textureless": 0.948,
+  "phantom_textureless": 0.0115,
+  "ff_textureless": 0.0803,
+  "share_textured": 0.398,
+  "hole_textured": 0.627,
+  "phantom_textured": 0.0334,
+  "ff_textured": 0.0959,
+  "band_0_1": {
+   "n": 141453,
+   "hole": 0.778,
+   "phantom": 0.0035
+  },
+  "band_1_2": {
+   "n": 412295,
+   "hole": 0.783,
+   "phantom": 0.0155
+  },
+  "band_2_3": {
+   "n": 329004,
+   "hole": 0.785,
+   "phantom": 0.0337
+  },
+  "all": {
+   "hole": 0.783,
+   "phantom": 0.0204,
+   "ff": 0.0919
+  }
+ },
+ "pin90_320": {
+  "frames": 4905,
+  "rays": 884993,
+  "dead_cols": 4,
+  "dead_rows": 0,
+  "k": 0.0176,
+  "textureless": 0.619,
+  "share_floor": 0.172,
+  "hole_floor": 0.201,
+  "phantom_floor": 0.005,
+  "ff_floor": 0.0103,
+  "share_textureless": 0.513,
+  "hole_textureless": 0.695,
+  "phantom_textureless": 0.0276,
+  "ff_textureless": 0.182,
+  "share_textured": 0.315,
+  "hole_textured": 0.22,
+  "phantom_textured": 0.0204,
+  "ff_textured": 0.0409,
+  "band_0_1": {
+   "n": 142484,
+   "hole": 0.485,
+   "phantom": 0.0058
+  },
+  "band_1_2": {
+   "n": 413860,
+   "hole": 0.453,
+   "phantom": 0.0231
+  },
+  "band_2_3": {
+   "n": 328649,
+   "hole": 0.458,
+   "phantom": 0.0262
+  },
+  "all": {
+   "hole": 0.46,
+   "phantom": 0.0215,
+   "ff": 0.0578
+  }
+ },
+ "pin90_320_fx": {
+  "frames": 4905,
+  "rays": 884993,
+  "dead_cols": 4,
+  "dead_rows": 0,
+  "k": 0.03,
+  "textureless": 0.619,
+  "share_floor": 0.172,
+  "hole_floor": 0.544,
+  "phantom_floor": 0.0067,
+  "ff_floor": 0.0291,
+  "share_textureless": 0.513,
+  "hole_textureless": 0.932,
+  "phantom_textureless": 0.0109,
+  "ff_textureless": 0.0588,
+  "share_textured": 0.315,
+  "hole_textured": 0.511,
+  "phantom_textured": 0.019,
+  "ff_textured": 0.0771,
+  "band_0_1": {
+   "n": 142484,
+   "hole": 0.721,
+   "phantom": 0.0053
+  },
+  "band_1_2": {
+   "n": 413860,
+   "hole": 0.716,
+   "phantom": 0.0117
+  },
+  "band_2_3": {
+   "n": 328649,
+   "hole": 0.759,
+   "phantom": 0.0173
+  },
+  "all": {
+   "hole": 0.733,
+   "phantom": 0.0127,
+   "ff": 0.0567
+  }
+ },
+ "wide120_320": {
+  "frames": 4905,
+  "rays": 1065536,
+  "dead_cols": 2,
+  "dead_rows": 0,
+  "k": 0.0249,
+  "textureless": 0.542,
+  "share_floor": 0.144,
+  "hole_floor": 0.142,
+  "phantom_floor": 0.0043,
+  "ff_floor": 0.0092,
+  "share_textureless": 0.464,
+  "hole_textureless": 0.577,
+  "phantom_textureless": 0.041,
+  "ff_textureless": 0.2329,
+  "share_textured": 0.392,
+  "hole_textured": 0.135,
+  "phantom_textured": 0.0329,
+  "ff_textured": 0.0595,
+  "band_0_1": {
+   "n": 186133,
+   "hole": 0.351,
+   "phantom": 0.0072
+  },
+  "band_1_2": {
+   "n": 504027,
+   "hole": 0.344,
+   "phantom": 0.0295
+  },
+  "band_2_3": {
+   "n": 375376,
+   "hole": 0.332,
+   "phantom": 0.0492
+  },
+  "all": {
+   "hole": 0.341,
+   "phantom": 0.0325,
+   "ff": 0.0781
+  }
+ },
+ "wide120_320_fx": {
+  "frames": 4905,
+  "rays": 1065536,
+  "dead_cols": 2,
+  "dead_rows": 0,
+  "k": 0.0381,
+  "textureless": 0.542,
+  "share_floor": 0.144,
+  "hole_floor": 0.457,
+  "phantom_floor": 0.0066,
+  "ff_floor": 0.0277,
+  "share_textureless": 0.464,
+  "hole_textureless": 0.91,
+  "phantom_textureless": 0.016,
+  "ff_textureless": 0.099,
+  "share_textured": 0.392,
+  "hole_textured": 0.444,
+  "phantom_textured": 0.0339,
+  "ff_textured": 0.1168,
+  "band_0_1": {
+   "n": 186133,
+   "hole": 0.607,
+   "phantom": 0.0065
+  },
+  "band_1_2": {
+   "n": 504027,
+   "hole": 0.647,
+   "phantom": 0.017
+  },
+  "band_2_3": {
+   "n": 375376,
+   "hole": 0.71,
+   "phantom": 0.0356
+  },
+  "all": {
+   "hole": 0.662,
+   "phantom": 0.0217,
+   "ff": 0.0805
+  }
+ }
+}

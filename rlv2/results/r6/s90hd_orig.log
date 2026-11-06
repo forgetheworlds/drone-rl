@@ -1,0 +1,7 @@
+s90hd hd90 0 all,504,0.597,190,588/1064,9.2 | contact_where,in_view=110@0.60,side=53@0.65,behind=3@0.41,floor=1@1.59,ceiling=0@0.00,box=23@0.82
+s90hd hd90 1 all,504,0.585,195,573/1064,9.3 | contact_where,in_view=105@0.63,side=62@0.62,behind=4@0.36,floor=0@0.00,ceiling=0@0.00,box=24@0.72
+s90hd hd90 2 all,504,0.573,199,559/1064,9.3 | contact_where,in_view=106@0.63,side=65@0.62,behind=4@0.36,floor=0@0.00,ceiling=0@0.00,box=24@0.64
+s90hd photo_bm160 0 all,504,0.853,47,913/1064,9.6 | contact_where,in_view=4@0.44,side=13@0.74,behind=1@0.32,floor=1@0.46,ceiling=0@0.00,box=28@0.61
+s90hd photo_bm160 1 all,504,0.853,49,913/1064,9.8 | contact_where,in_view=4@0.44,side=12@0.71,behind=1@0.32,floor=1@0.46,ceiling=0@0.00,box=31@0.63
+s90hd photo_bm160 2 all,504,0.849,47,914/1064,9.9 | contact_where,in_view=3@0.52,side=11@0.72,behind=0@0.00,floor=1@0.46,ceiling=0@0.00,box=32@0.64
+R6_DONE

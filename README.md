@@ -5,19 +5,14 @@
 A VLM (or any upstream planner) picks the next waypoint that is already in the camera image. The drone’s job is just: get there fast, don’t hit anything. No map of the room. No depth camera — only stereo that looks like real cheap OV cameras.
 
 <p align="center">
-  <img src="docs/assets/furniture-moving.gif" width="860" alt="Drone flying past furniture and a moving obstacle while a voxel map fills in"><br>
-  <em>Same indoor sim language: voxel rooms, depth inset, waypoints. Furniture + moving obstacle mission.</em>
+  <img src="docs/assets/voxel-furniture-arrival.gif" width="860" alt="A drone makes continuous forward progress past furniture and a moving obstacle, reaching three waypoints"><br>
+  <em>Furniture + a moving obstacle — newly rendered 5× arrival replay (archived depth planner).</em>
 </p>
 
 <p align="center">
-  <img src="docs/assets/staggered-vertical.gif" width="420" alt="Staggered walls mission">
-  <img src="docs/assets/warframe-complex.gif" width="420" alt="Warframe Moving AI voxel map"><br>
-  <em>Left: staggered walls. Right: a Warframe level from the Moving AI voxel benchmarks.</em>
-</p>
-
-<p align="center">
-  <img src="docs/assets/gap-overhang.gif" width="520" alt="Gap and overhang mission"><br>
-  <em>Gap and overhang — the depth inset is the 16×20 view the navigator actually gets.</em>
+  <img src="docs/assets/voxel-staggered-arrival.gif" width="420" alt="Successful drone flight through staggered walls and changing vertical clearance">
+  <img src="docs/assets/voxel-warframe-arrival.gif" width="420" alt="Successful camera-visible waypoint flight in the Warframe Complex voxel map"><br>
+  <em>Staggered walls (6×) · Warframe Complex arrival (5×). Successful sim replays, not stereo-student evals.</em>
 </p>
 
 Sim-to-real prep for an under-$50 build (ESP32-S3 flight control, dual cheap cameras, stereo + policy onboard; VLM off-board). Firmware is not in this tree yet. **All numbers below are simulated.**
@@ -34,7 +29,7 @@ I first built a local path planner over a voxel map. On clean depth it looked gr
 
 So the policy now aims **straight at the waypoint** as if unseen space is open, and only reacts when nearby depth confirms an obstacle. Far-away unknown cells don’t matter. Not hitting what’s close does.
 
-The old planner is under [`archive/path_planner/`](archive/path_planner/) and is not built by default. The flight gifs above are from that sim visual language (map fills as the camera sees).
+The old planner is under [`archive/path_planner/`](archive/path_planner/) and is not built by default. The animations above are newly rendered from successful logged runs of that archived depth planner (the map fills as its depth camera sees), not rollouts of the released stereo student.
 
 ## Approach
 

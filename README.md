@@ -1,65 +1,41 @@
 # drone-rl
 
-Stereo-depth indoor drone navigation with a learned policy, RAPTOR flight control, and
-honest simulated evaluation under camera noise.
+A learned local navigator for a cheap indoor drone.
 
-Waypoints come from an upstream planner (in deployment: a VLM looking at the camera). The
-onboard stack’s job is to reach each waypoint quickly without contacts, using only depth,
-ego state, and the waypoint — no prior map.
+The idea is simple: a VLM (or any upstream planner) looks at the camera and picks the next waypoint that is already in view. The onboard stack’s only job is to get there fast, without hitting anything, using what a real micro-drone can actually sense — stereo depth, ego motion, and that waypoint. No map of the room. No privileged laser. No “assume the wall is there because the sim said so.”
 
-```text
-Stereo depth + ego state + waypoint
-        ↓
-Local map + student policy (MLP) + blank-view / memory / narrow-gap guards
-        ↓
-Body velocity + yaw rate @ 20 Hz
-        ↓
-RAPTOR neural controller @ 100 Hz → motors
-```
+This repo is the policy, the stereo noise model, the training/grading loop, and an honest simulated evaluation. Hardware bring-up (ESP32-S3 flight control, dual cameras, onboard stereo) is the next chapter; the work here is the sim-to-real prep for that stack.
 
-This repository replaces an earlier map-and-route prototype. That path-based planner worked
-in clean depth and failed under realistic stereo holes and textureless walls. The v2 stack
-here trains a student against a privileged teacher (DAgger) in a voxel simulator, then
-grades it with calibrated stereo-BM noise and (separately) HyperDrone RGB stereo.
+## Why this exists
 
-## Results (simulated)
+I first built a path planner over a local map. In clean depth it looked great — zero contacts on the source missions. Under realistic stereo it fell apart. Textureless walls and JPEG’d OV-class cameras punch huge holes in the depth image, and a planner that trusted empty cells flew straight into them.
 
-All numbers below are **simulated**. Nothing here is measured on hardware yet.
+So I threw out the “plan the whole route” mindset. The policy now aims straight at the waypoint as if unseen space is open, and only reacts when nearby depth confirms an obstacle. Far-away unknown space does not matter. What matters is not hitting what is close, then getting back on the line to the goal.
 
-**Round 6** — student `s120hd` (120° FOV), memory guard + narrow-gap fallback, depth preset
-`hd_bm320_120` with despeckle. Completion / contacts:
+## How I approach it
 
-| Set | Completion | Contacts | Flights |
-|---|---:|---:|---:|
-| HyperDrone ProcTHOR-1 (real stereo + OV2640 effects) | **.708** | 24 | 120 |
-| Held-out ProcTHOR-26 (real stereo) | **.700** | 14 | 60 |
-| Original 63 missions (hd preset) | **.672** | 154 | 504 |
+**Privileged teacher → deployable student (DAgger).**  
+A teacher sees the true local geometry and learns with PPO. A smaller student sees only what the drone will have onboard: a short depth history, ego state, and the waypoint. The student flies (mixed with the teacher early on); the teacher labels every state; the student regresses onto those labels. After DAgger, optional student-side PPO lets it learn what *its own* view can safely do — something pure imitation never teaches.
 
-**Round 7** — same student with a **blank-view guard** (when most of the forward sector
-returns no depth, slow to 0.3 m/s and yaw to find texture). Original missions, 1008 flights:
+**Stereo on purpose.**  
+The real target is two cheap cameras on an ESP-class board, not a depth camera. I chose stereo because that is what the hardware will have, and because it forces the policy to live with holes, speckles, and FOV limits instead of cheating with perfect range. Training and grading use calibrated StereoBM-style presets (matched to HyperDrone hole rates), with optional real HyperDrone RGB stereo closed-loop for the headline check. SGBM was heavier for little gain at the resolutions that fit onboard.
 
-| Config | Completion | Contacts |
-|---|---:|---:|
-| Baseline (mem + narrow) | .680 | 302 |
-| **+ blank guard** | **.715** | **255** |
+**Rewards that match the job.**  
+Every tick scores progress toward the current waypoint (dense distance improvement), a small time cost so it does not dawdle, and a heavy contact penalty that ends the episode. Near the goal it also penalizes rushing so arrivals settle cleanly. That is the whole contract: arrive, do not touch, do not waste time. No reward for exploring unknown space. No reward for hugging a remembered map.
 
-Main remaining failure modes: textureless surfaces that stereo never measures, obstacles
-beside / behind the drone, and low blockers (counters, people) that need an early climb or
-side-step. Fly-under-table missions are excluded from headline scores; they are a missing
-skill, not a perception bug.
+**Domain randomization that transfers.**  
+Missions are generated: rooms, cross-walls with gaps, pillars on the line, overhanging slabs, narrow slots you must go around, and 3D paths where the waypoint sits above, below, or through a window/doorway. Depth is randomized through FOV, presets, despeckle, and camera-like degradation rather than perfect voxels. Guards that only use onboard quantities (blank forward sector → slow and yaw to find texture; short-term occupancy memory; narrow-gap route fallback) sit on top of the student. A “remember holes as obstacles” idea was tried and made things worse — so it stays off.
 
-Details: [docs/RESULTS.md](docs/RESULTS.md), [docs/FAILURES.md](docs/FAILURES.md),
-[docs/BLANK_GUARD.md](docs/BLANK_GUARD.md), [docs/HYPERDRONE.md](docs/HYPERDRONE.md),
-[docs/DEPTH.md](docs/DEPTH.md).
+**What I cut.**  
+Fly-under-table is out of the headline: it is a missing skill, not a perception win. Hole-memory hurt completion. The old path planner’s clean-depth scores are not claimed here.
 
-## Checkpoints
+## What worked
 
-| File | Role |
-|---|---|
-| [`checkpoints/s120hd.bin`](checkpoints/s120hd.bin) | Best overall 120° student |
-| [`checkpoints/s90hd.bin`](checkpoints/s90hd.bin) | 90° student (stronger on small held-out set) |
+The blank-view guard was the clearest win: when most of the forward sector returns no depth, cap speed and yaw until texture appears. On the original mission set that lifted completion and cut contacts versus the same student with only memory + narrow-gap (see [docs/BLANK_GUARD.md](docs/BLANK_GUARD.md)).
 
-See [checkpoints/README.md](checkpoints/README.md).
+Under real HyperDrone stereo (not just the preset), the released 120° student (`s120hd`) completes most of ProcTHOR-1 and a held-out ProcTHOR-26 split with few contacts for this class of stack — details in [docs/RESULTS.md](docs/RESULTS.md) and [docs/HYPERDRONE.md](docs/HYPERDRONE.md). Failure analysis says the remaining hits are mostly still perception holes and side/low blockers, not “saw it clearly and flew in anyway” ([docs/FAILURES.md](docs/FAILURES.md)).
+
+Released weights: [`checkpoints/s120hd.bin`](checkpoints/s120hd.bin) (best overall), [`checkpoints/s90hd.bin`](checkpoints/s90hd.bin) (stronger on the small held-out set).
 
 ## Quick start
 
@@ -69,47 +45,24 @@ Linux needs a BLAS (`sudo apt install cmake g++ libopenblas-dev`). macOS uses Ac
 ./reproduce.sh
 ```
 
-This builds `rlv2_grade` / `rlv2_train_cpu`, runs the RAPTOR runtime test, and grades
-`s120hd` for two seeds on one public mission.
-
-Grade a full portfolio (slow):
-
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j
-RLV2_DEPTH_PRESET=hd_bm320_120 RLV2_PRESET_DESPECKLE=1 RLV2_HFOV=120 \
-RLV2_MEM_GUARD=1 RLV2_NARROW=1 RLV2_BLANK_GUARD=1 RLV2_THREADS=4 \
-./build/rlv2_grade missions assets/raptor.bin checkpoints/s120hd.bin student 1 8 out.csv
-```
-
-Train a teacher then a student on CPU (gen3d mix; see `rlv2/train_cpu.cpp`):
-
-```sh
-./build/rlv2_train_cpu assets/raptor.bin 64 40
-./build/rlv2_train_cpu assets/raptor.bin 64 60 256 teacher_cpu.bin student_out
-```
+Builds the grade/train binaries, runs the RAPTOR runtime test, and smoke-grades `s120hd` on one public mission. Full portfolio grading and CPU teacher/student training usage live in the `rlv2/grade.cpp` and `rlv2/train_cpu.cpp` headers.
 
 ## Layout
 
 | Path | What |
 |---|---|
-| `rlv2/` | CPU training (`train_cpu`), grading (`grade`), depth presets, guards, gen3d missions |
-| `checkpoints/` | Released student weights |
+| `rlv2/` | CPU train/grade, depth presets, guards, mission generation |
+| `checkpoints/` | Released students |
+| `docs/` | Depth research, HyperDrone eval, failures, blank-guard A/B |
+| `missions/` | Evaluation missions |
 | `include/navigation/` | RAPTOR adapter + voxel world used by the grader |
-| `missions/` | Evaluation missions (source / public / fresh) |
-| `docs/` | Depth research, HyperDrone eval, failure breakdown, blank-guard A/B |
-| `physics.hpp` / `raptor.hpp` | L2F dynamics + RAPTOR policy (also under `include/`) |
 
-macOS Metal high-throughput training lives in `rlv2/rlv2.mm`, `train.mm`, and the `.metal`
-shaders. It is **not required** to grade the released checkpoints on Linux. See
-[docs/MAC_METAL.md](docs/MAC_METAL.md).
+Optional Apple Metal high-throughput training is documented in [docs/MAC_METAL.md](docs/MAC_METAL.md); it is not required to grade the shipped checkpoints on Linux.
 
-## Hardware target (in progress)
+## Hardware target
 
-Intended deployment: ESP32-S3 flight controller, dual OV2640 (or OV5647 via a MIPI host),
-onboard stereo depth + student policy, VLM waypoints off-board. Firmware and board selection
-are not finished in this tree; the policy and stereo noise model are the sim-to-real prep.
+Intended deployment under ~$50: ESP32-S3 for flight control, two OV5647 (or OV2640) cameras into a cheap MIPI-capable host for stereo + policy, VLM waypoints off-board over Wi-Fi. Firmware is not finished in this tree; the policy and stereo noise model are.
 
 ## Licence
 
-MIT. RAPTOR weights and L2F dynamics retain their upstream MIT notices in
-[THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
+MIT. RAPTOR weights and L2F dynamics keep their upstream notices in [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).

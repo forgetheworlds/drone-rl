@@ -1,0 +1,15 @@
+{
+ "lens": "wide120",
+ "frames": 10557,
+ "rays_outside_render_or_dead_band": 38,
+ "hole": 0.6570938238942203,
+ "phantom": 0.02321158180883484,
+ "false_free": 0.0775116721424866,
+ "k": 0.038318440318107605,
+ "rays_gt_lt3": 2351757,
+ "desp_hole": 0.6621096482332146,
+ "desp_phantom": 0.021678685340364674,
+ "desp_false_free": 0.07556075668815583,
+ "desp_k": 0.03825835883617401,
+ "desp_rays_gt_lt3": 2351757
+}

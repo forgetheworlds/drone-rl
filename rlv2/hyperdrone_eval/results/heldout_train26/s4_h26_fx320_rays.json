@@ -1,0 +1,15 @@
+{
+ "lens": "pin90",
+ "frames": 4223,
+ "rays_outside_render_or_dead_band": 64,
+ "hole": 0.7553567901052074,
+ "phantom": 0.01311162146290595,
+ "false_free": 0.1030468270738191,
+ "k": 0.03221375495195389,
+ "rays_gt_lt3": 744149,
+ "desp_hole": 0.7645699987502503,
+ "desp_phantom": 0.010003372980411181,
+ "desp_false_free": 0.09890843021192636,
+ "desp_k": 0.031967438757419586,
+ "desp_rays_gt_lt3": 744149
+}

@@ -4,11 +4,27 @@
 
 A VLM (or any upstream planner) picks the next waypoint that is already in the camera image. The drone’s job is just: get there fast, don’t hit anything. No map of the room. No depth camera — only stereo that looks like real cheap OV cameras.
 
-![Sim flight through a doorway to a visible waypoint](docs/assets/doorway-success.gif)
+<p align="center">
+  <img src="docs/assets/furniture-moving.gif" width="860" alt="Drone flying past furniture and a moving obstacle while a voxel map fills in"><br>
+  <em>Same indoor sim language: voxel rooms, depth inset, waypoints. Furniture + moving obstacle mission.</em>
+</p>
 
-*Simulated flight: drone goes through a doorway toward a waypoint it can see.*
+<p align="center">
+  <img src="docs/assets/staggered-vertical.gif" width="420" alt="Staggered walls mission">
+  <img src="docs/assets/warframe-complex.gif" width="420" alt="Warframe Moving AI voxel map"><br>
+  <em>Left: staggered walls. Right: a Warframe level from the Moving AI voxel benchmarks.</em>
+</p>
 
-Sim-to-real prep for an under-$50 build (ESP32-S3 flight control, dual cheap cameras, stereo + policy onboard; VLM off-board). Firmware is not in this tree yet. **All numbers are simulated.**
+<p align="center">
+  <img src="docs/assets/gap-overhang.gif" width="520" alt="Gap and overhang mission"><br>
+  <em>Gap and overhang — the depth inset is the 16×20 view the navigator actually gets.</em>
+</p>
+
+Sim-to-real prep for an under-$50 build (ESP32-S3 flight control, dual cheap cameras, stereo + policy onboard; VLM off-board). Firmware is not in this tree yet. **All numbers below are simulated.**
+
+<p align="center">
+  <img src="docs/assets/stack.png" width="900" alt="Onboard stack: stereo → policy → blank-view guard → RAPTOR">
+</p>
 
 ---
 
@@ -18,7 +34,7 @@ I first built a local path planner over a voxel map. On clean depth it looked gr
 
 So the policy now aims **straight at the waypoint** as if unseen space is open, and only reacts when nearby depth confirms an obstacle. Far-away unknown cells don’t matter. Not hitting what’s close does.
 
-The old planner is under [`archive/path_planner/`](archive/path_planner/) and is not built by default.
+The old planner is under [`archive/path_planner/`](archive/path_planner/) and is not built by default. The flight gifs above are from that sim visual language (map fills as the camera sees).
 
 ## Approach
 
@@ -34,11 +50,11 @@ Released weights: [`s120hd.bin`](checkpoints/s120hd.bin) (best overall), [`s90hd
 
 ## What worked
 
-When most of the view ahead has **no depth** (blank wall / hole), the blank-view guard slows the drone and turns until texture returns. Same policy, same 1008 simulated flights — only that guard changes:
+When most of the view ahead has **no depth** (blank wall / hole), the blank-view guard slows the drone and turns until texture returns. Current simulated headline numbers for `s120hd`:
 
-![Blank guard: more success, fewer hits](docs/assets/blank-guard.png)
-
-Left: more flights finish the mission. Right: fewer times it hits something.
+<p align="center">
+  <img src="docs/assets/results-now.png" width="900" alt="Current simulated completion rates and blank-guard contact A/B">
+</p>
 
 Under real HyperDrone stereo, `s120hd` also completes most of ProcTHOR-1 and a held-out ProcTHOR-26 split ([docs/RESULTS.md](docs/RESULTS.md)). Remaining hits are mostly still unmeasured surfaces and side/low blockers ([docs/FAILURES.md](docs/FAILURES.md)).
 

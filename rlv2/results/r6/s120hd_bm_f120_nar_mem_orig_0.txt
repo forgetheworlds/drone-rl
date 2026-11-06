@@ -1,0 +1,8 @@
+set,flights,completion,contact_flights,waypoints_reached,seconds_per_waypoint
+source,256,0.906,15,705/768,8.5
+public,128,0.977,0,125/128,11.4
+fresh,120,0.875,13,153/168,11.6
+all,504,0.917,28,983/1064,9.4
+contacts_box_missions,17/128
+preset_surfaces,none=0.105,floor=0.199,ceiling=0.202,wall_textureless=0.045,wall_textured=0.443,thin=0.000,mover=0.007
+contact_where,in_view=0@0.00,side=7@0.68,behind=1@0.13,floor=0@0.00,ceiling=0@0.00,box=20@0.60

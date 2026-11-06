@@ -1,0 +1,5 @@
+set,flights,completion,contact_flights,waypoints_reached,seconds_per_waypoint
+procthor,120,0.958,4,115/120,5.6
+all,120,0.958,4,115/120,5.6
+contacts_box_missions,0/0
+contact_where,in_view=0@0.00,side=2@0.25,behind=0@0.00,floor=0@0.00,ceiling=0@0.00,box=2@0.18

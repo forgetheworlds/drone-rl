@@ -1,0 +1,1 @@
+// Stand-in for the Metal standard library, so the kernels compile as C++ (see metal_cpu.h).

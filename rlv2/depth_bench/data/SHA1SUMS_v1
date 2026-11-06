@@ -1,0 +1,11 @@
+3997e9c512bc8e9d153dd2fcc5a10c8ac445654d  dev_ProcTHOR-Train-1.npz
+057859c1322eefb4f6f2938ed400117c1f4a9d0f  dev_ProcTHOR-Train-2.npz
+ca8d8ab4cf29187eeab2fd01ba1101dffbb43187  dev_furniture-280000.npz
+11259a3f337b1abae4eeeed562ef67fe8d49e839  dev_overhang-282000.npz
+3fcaed34a7d8eef44f3c6606dd86bb7576efcffa  test_ProcTHOR-Train-150.npz
+5facfc5d509b122ecabd627d370b73d9e216d183  test_ProcTHOR-Train-151.npz
+89a1384d9fe137c5b64f3afc86c7621745155616  test_ProcTHOR-Train-152.npz
+42c717afcf40553735c38b912230061c7c5d6c8e  test_ProcTHOR-Train-153.npz
+269923468501cd7045caf38297bbdb1171263b57  test_fresh-dense-00.npz
+7680a0df3542c7ef106aaa5f65840b3645b67c37  test_gap_overhang-284000.npz
+fca581e7cf2ea3b6e4238107dad79a6aede945ed  test_narrow_gap-281000.npz
